@@ -21,6 +21,21 @@ symbol_value = {
     "C":3,
     "D":2
 }
+# Calculate winnings
+def check_winnings(columns, lines, bet, values):
+    winnings = 0
+    winning_lines = []
+    for line in range(lines):
+        symbol = columns[0][line]
+        for column in columns:
+            symbol_to_check = column[line]
+            if symbol != symbol_to_check:
+                break
+        else:
+            winnings += values[symbol] * bet
+            winning_lines.append(line + 1)
+
+    return winnings, winning_lines
 
 def get_slot_machine_spin (rows, cols, symbols):
     all_symbols = []
@@ -73,6 +88,7 @@ def get_no_of_lines():
                 print("Enter the correct number of lines")
         else:
             print("Enter a valid number")
+    
     return lines
 
 # Take bet per line
@@ -89,21 +105,39 @@ def get_bet():
             print("Enter a valid number")
     return betamt
 
-#Define main function
-def main():
-    balance = deposit()
+# Balance check for spin
+def spin (balance):
     lines = get_no_of_lines()
     while True:
         bet = get_bet()
-        Total_bet = bet * lines
-        if Total_bet > balance:
-            print(f"Your balance is ${balance}. Your bet amount ${Total_bet} cannot be higher than balance.")
+        total_bet = bet*lines
+
+        if total_bet > balance:
+            print (f"You do not have adequate balance to bet ${total_bet}. Reduce your bet per line from ${bet}")
+
         else:
             break
-    print (f"You are betting ${bet} on {lines} lines. Total betting amount is ${Total_bet}")
+    print(f"Your per line bet is ${bet} for {lines} lines. Total bet amount is ${total_bet}")
+
+    slots = get_slot_machine_spin(rows, cols, symbols_count) 
+    print_slot_machine (slots)
+    winnings, winning_lines = check_winnings(slots, lines, bet,symbol_value)
+    print (f"You won ${winnings}.")
+    print(f"You won on lines {winning_lines}")
+
+    return winnings - total_bet
 
 
-slots = get_slot_machine_spin (rows, cols, symbols_count)
-print_slot_machine (slots)
+#Define main function
+def main():
+    balance = deposit()
+    
+    while True:
+        print(f"Current balance is ${balance}")
+        answer = input ("Press Enter to play & q to quit")
+        if answer == "q":
+            break
+        balance += spin(balance)
 
+    print (f"You are left with ${balance}")
 main()  
