@@ -1,57 +1,23 @@
-#Try various variables - Tupple (), fixed List - no append, add or remove operations
-# Try various variables - Sets {}
-import time
-animals = {"lion", "tiger", "monkey", "cheetah", "elephant"}
-for a in animals:
-    print (a)
-    print()
+winnings, winning_lines = check_winnings (slots,lines, bet, symbol_value)
+print (f"You won ${winnings}.")
+print (f"You won on lines:" *winning_lines)
 
-print ("---add---")
-animals.add ("hyena")
+#Calculate winnings
+def check_winnings (columns, lines, bet, values):
+    winnings = 0
+    winning_lines = []
+    for line in range (lines):
+        symbol = columns[0][line]
+        for column in columns:
+            symbol_to_check = column[line]
+            if symbol != symbol_to_check:
+                break
+        else:
+            winnings += values[symbol]*bet
+            winning_lines.append(line+1)
+    return winnings, winning_lines
 
-time.sleep (2)
-for a in animals:
-    print (a)
-    print()
 
-print ("---delete---")
-animals.remove ("lion")
 
-time.sleep (2)
-for a in animals:
-    print (a)
-    print()
 
-print ("---add by input---")
-
-print ("Input an animal to add")
-add_animal = input()
-
-while add_animal == "":
-    print ("Field cannot be blank")
-    print ("Input animal name")
-    add_animal = input()
-
-animals.add (add_animal)
-
-time.sleep (2)
-for a in animals:
-    print (a)
-    print()
-
-print ("---delete by input---")
-
-print ("Input an animal to remove")
-del_animal = input()
-
-while del_animal == "":
-    print ("Field cannot be blank")
-    print ("Input animal name to delete")
-    del_animal = input()
-
-animals.remove (del_animal)
-
-time.sleep (2)
-for a in animals:
-    print (a)
-    print()
+main()  
