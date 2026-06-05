@@ -1,0 +1,1 @@
+status = "[Completed]" if task ["complete"] else "[Pending]"
