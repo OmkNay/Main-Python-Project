@@ -17,6 +17,19 @@ def save_tasks(tasks):
     except:
         print ("Failed to save")
 
+def view_tasks(tasks):
+    print()
+    task_list= tasks["tasks"]
+
+    if len(task_list)==0:
+        print("There are no tasks to display.")
+    else:
+        print("Your to-do list is: \n")
+
+    for idx, task in enumerate (task_list):
+        status = "[Completed]" if task == ["complete"] else "[Pending]"
+        print(f"{idx+1}. {task['description']} | {status}")
+
 def create_task(tasks):
     description = input("Enter a task: ").strip()
     if description:
@@ -43,21 +56,6 @@ def mark_tasks_complete(tasks):
     except:
         print("Enter a valid number.")
     
-
-    
-
-def view_tasks(tasks):
-    print()
-    task_list= tasks["tasks"]
-
-    if len(task_list)==0:
-        print("There are no tasks to display.")
-    else:
-        print("Your to-do list is: \n")
-
-    for idx, task in enumerate (task_list):
-        
-        print(f"{idx+1}. {task[description]} | {status}")
         
 
 def main():
